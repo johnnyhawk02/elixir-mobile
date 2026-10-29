@@ -30,8 +30,9 @@ const HELP = [
 <li>The star makes it a favourite (favourites are listed first).</li>
 <li><b>save new</b> keeps what you hear; <b>save over</b> replaces the one loaded.</li>
 <li><b>export presets</b> saves your presets to a file (it never deletes anything); <b>import</b> reads one back.</li></ul>`],
-  ['seq', 'step sequencers', `<p>Hold any fader for half a second and it gets a step sequencer: 2 to 16 steps, each moving the fader up or down from where you leave it, so you can still play it.</p>
-<ul><li>Paint the steps with a finger, or press <b>randomise</b>.</li><li><b>speed</b> is each step's length, a 16th up to 8 bars. <b>slew</b> glides between steps. <b>depth</b> is how far they reach.</li>
+  ['seq', 'step sequencers', `<p>Hold any fader for half a second and it gets a step sequencer: 2 to 64 steps, each moving the fader up or down from where you leave it, so you can still play it.</p>
+<ul><li>Paint the steps with a finger: sixteen at a time, the buttons above them pick which sixteen (the one playing is underlined).</li>
+<li><b>randomise</b> makes new steps; the button beside it picks the kind (tap to change): random, drunk (a wandering walk), wobbly (smooth waves that loop), ramp, s&amp;h (held steps) or sparse (now and then a spike).</li><li><b>speed</b> is each step's length, a 16th up to 8 bars. <b>slew</b> glides between steps. <b>depth</b> is how far they reach.</li>
 <li><b>on</b> turns it on and off. A fader with a sequencer running has its name inverted. Presets keep them.</li>
 <li>The steps follow the groove and its depth, landing with the swung hits; switch that off in the person button's <b>seq</b> tab.</li></ul>`],
   ['rec', 'recording', `<ul><li><b>rec</b> starts recording (and playing); press it again to stop, and the WAV downloads.</li>

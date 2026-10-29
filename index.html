@@ -1176,7 +1176,7 @@ body { padding: max(6px, env(safe-area-inset-top, 0px)) max(6px, env(safe-area-i
 .m-seq { position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; pointer-events: none; display: flex; align-items: flex-end; justify-content: center;
   padding: 16px max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
 .m-seq[hidden] { display: none; }
-.m-seq-card { width: 100%; max-width: 480px; height: min(calc(100dvh - 150px), 640px); display: grid; grid-template-rows: auto minmax(0, 1fr) auto auto auto auto auto; gap: 14px;
+.m-seq-card { width: 100%; max-width: 480px; height: min(calc(100dvh - 150px), 640px); display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto auto auto auto auto; gap: 12px;
   pointer-events: auto; box-shadow: 0 -8px 30px rgba(0, 0, 0, .5), inset 0 3px 10px rgba(0, 0, 0, .28); }
 .m-seq .m-chead { gap: 10px; }
 .m-seq .m-chead output { flex: 1; text-align: right; color: var(--muted); font-size: var(--fs-s); }
@@ -1196,7 +1196,14 @@ body { padding: max(6px, env(safe-area-inset-top, 0px)) max(6px, env(safe-area-i
   background: repeating-linear-gradient(to right, var(--ghost) 0 5px, transparent 5px 8px) 4px 4px / calc(100% - 8px) calc(100% - 8px) no-repeat; }
 .m-seq-len i { position: absolute; left: 4px; top: 4px; bottom: 4px; width: calc((100% - 8px) * var(--w, 1));
   background: repeating-linear-gradient(to right, var(--ink) 0 5px, transparent 5px 8px); }
-.m-seq-btns { display: grid; grid-template-columns: 1.4fr 1fr; gap: 8px; }
+.m-seq-btns { display: grid; grid-template-columns: 1.3fr 1fr 0.9fr; gap: 8px; }
+.m .m-seq-type { font-size: min(var(--fs-xs), 3.8vw, 15.7px) !important; padding: 0 2px; letter-spacing: 0; }
+/* the step pages: four of sixteen steps (the ones past the length faint), the page with the step playing marked */
+.m-seq-pages { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.m .m-seq-pages .m-btn { min-height: 34px; font-size: var(--fs-xs) !important; padding: 0; }
+.m .m-seq-pages .m-btn.past { opacity: .4; }
+.m .m-seq-pages .m-btn.now { text-decoration: underline; text-underline-offset: 4px; }
+.m .m-seq-pages .m-btn[aria-selected="true"] { background: var(--ink) !important; color: var(--panel) !important; text-shadow: none; opacity: 1; }
 .m-seq-btns .m-btn { min-height: 52px; }
 
 /* ---- pop-ups over the whole screen: the randomisers' settings (hold a randomise button), the perf slot chooser, the
@@ -1288,7 +1295,7 @@ body { padding: max(6px, env(safe-area-inset-top, 0px)) max(6px, env(safe-area-i
 
 <main class="m" id="m">
   <header class="m-top">
-    <b class="m-title" id="m-title">elixir<small class="m-ver">v130</small></b>
+    <b class="m-title" id="m-title">elixir<small class="m-ver">v131</small></b>
     <button class="m-toggle m-setbtn m-userbtn" id="m-user-open" type="button" aria-label="User settings"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></button>
     <button class="m-toggle m-setbtn" id="m-set-open" type="button" aria-label="Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg></button>
     <button class="m-toggle m-setbtn m-helpbtn" id="m-help-open" type="button" aria-label="Help me!"><span class="m-help-long">help me!</span><span class="m-help-short" aria-hidden="true">?</span></button>
@@ -1373,7 +1380,7 @@ body { padding: max(6px, env(safe-area-inset-top, 0px)) max(6px, env(safe-area-i
         <button class="m-btn" id="m-pexport" type="button" title="Saves your presets, the built-in ones you saved over and every starred one, to a file">export presets</button>
         <button class="m-btn m-install" id="m-install" type="button" hidden>install app</button>
       </div>
-      <footer class="m-foot">Erica Synths LXR-02 port, GPL-3.0, unofficial<br><a href="help.html">Help</a> · <a href="https://github.com/johnnyhawk02/elixir-mobile">Source</a> · v130, 29 Oct, 08:48</footer>
+      <footer class="m-foot">Erica Synths LXR-02 port, GPL-3.0, unofficial<br><a href="help.html">Help</a> · <a href="https://github.com/johnnyhawk02/elixir-mobile">Source</a> · v131, 29 Oct, 17:05</footer>
     </section>
   </div>
   </div>
@@ -1451,12 +1458,13 @@ body { padding: max(6px, env(safe-area-inset-top, 0px)) max(6px, env(safe-area-i
   <div class="m-seq" id="m-seq" hidden>
     <section class="m-card m-seq-card" role="dialog" aria-labelledby="m-seq-name">
       <div class="m-chead"><b><span id="m-seq-name"></span> seq</b><output id="m-seq-val"></output><button class="m-toggle" id="m-seq-on" type="button" aria-pressed="true">on</button></div>
+      <div class="m-seq-pages" id="m-seq-pages" role="tablist" aria-label="step pages"></div>
       <div class="m-seq-steps" id="m-seq-steps" aria-label="steps"></div>
       <div class="m-seq-lenrow"><span>length</span><div class="m-seq-len" id="m-seq-len" role="slider" aria-label="length"><i></i></div><output id="m-seq-len-out"></output></div>
       <div class="m-seq-lenrow"><span>slew</span><div class="m-seq-len" id="m-seq-slew" role="slider" aria-label="slew"><i></i></div><output id="m-seq-slew-out"></output></div>
       <div class="m-seq-lenrow"><span>speed</span><div class="m-seq-len" id="m-seq-speed" role="slider" aria-label="speed"><i></i></div><output id="m-seq-speed-out"></output></div>
       <div class="m-seq-lenrow"><span>depth</span><div class="m-seq-len" id="m-seq-depth" role="slider" aria-label="depth"><i></i></div><output id="m-seq-depth-out"></output></div>
-      <div class="m-seq-btns"><button class="m-btn m-big" id="m-seq-rand" type="button">randomise</button><button class="m-btn" id="m-seq-close" type="button">done</button></div>
+      <div class="m-seq-btns"><button class="m-btn m-big" id="m-seq-rand" type="button">randomise</button><button class="m-btn m-seq-type" id="m-seq-type" type="button" aria-label="kind of randomise (tap to change)"></button><button class="m-btn" id="m-seq-close" type="button">done</button></div>
     </section>
   </div>
 
@@ -8598,22 +8606,25 @@ $('m-fx-alter').addEventListener('click', async () => {
   $('m-xclear').addEventListener('click', () => { xm.amt.fill(0); changed(); });
   xcells.forEach((d) => d());
 }
-// ---- step sequencers: holding a fader opens one for it: 2 to 16 steps, each an offset from the fader's setting (up or
-// down, up to depth of its range) that it takes while playing (the step is the bar's 16th counted from the start,
+// ---- step sequencers: holding a fader opens one for it: 2 to 64 steps (edited a page of 16 at a time), each an offset
+// from the fader's setting (up or down, up to depth of its range) that it takes while playing (the step is the bar's 16th counted from the start,
 // wrapped at the length, so short ones run against the bar), jumping to it or, with slew, gliding to it over up to a
 // whole step; each step lasts a 16th note up to 8 bars. The fader still moves its setting meanwhile, and stopping
 // (or switching the sequencer off) puts the setting back.
-// Draw the steps with a finger (drag across to paint), randomise them, or switch it off; a fader with one running is
-// marked. Presets keep them ----
+// Draw the steps with a finger (drag across to paint), randomise them (random, drunk, wobbly, ramp, s&h or sparse), or
+// switch it off; a fader with one running is marked. Presets keep them ----
 const mSeqSteps = Array.from({ length: 16 }, (_, i) => { const c = document.createElement('i'); c.dataset.i = i; $('m-seq-steps').append(c); return c; });
-let mSeqF = null;
+let mSeqF = null, mSeqPage = 0;
+const SEQ_MAX = 64;
+// (a sequence's steps, always 64 long: a shorter one, saved before, is padded with none)
+const seqVals = (v) => Array.from({ length: SEQ_MAX }, (_, i) => (Number.isFinite(v[i]) ? v[i] : 0));
 // speed: how long each step lasts, in 16ths: a 16th note (1) up to 8 bars (128); counted from the bar's 16ths, so every
 // speed stays in time with the beat
 const SEQ_STEPS = [1, 2, 4, 8, 16, 32, 64, 128];
 const stepName = (v) => (v < 16 ? `1/${16 / v}` : v === 16 ? '1 bar' : `${v / 16} bars`);
 // a step's offset, -1..1 of depth, in twentieths
 const mSeqOff = (x) => Math.round(Math.max(-1, Math.min(1, x)) * 20) / 20;
-const newSeq = () => ({ on: true, len: 16, slew: 0, step: 1, depth: 50, vals: new Array(16).fill(0) });
+const newSeq = () => ({ on: true, len: 16, slew: 0, step: 1, depth: 50, vals: new Array(SEQ_MAX).fill(0) });
 // the value heard: the setting moved by the current offset
 function mSeqApply(f) {
   const q = f.seq;
@@ -8627,17 +8638,21 @@ function mSeqRelease(f) {
 }
 function mSeqOpen(fd) {
   if (!fd.seq) fd.seq = newSeq();
-  mSeqF = fd; $('m-seq-name').textContent = fd.label;
+  mSeqF = fd; mSeqPage = 0; $('m-seq-name').textContent = fd.label;
   $('m-seq').hidden = false; mSeqDraw();
 }
 function mSeqDraw() {
   const fd = mSeqF, q = fd.seq;
+  const at = mSeqPage * 16;
   mSeqSteps.forEach((c, i) => {
-    c.style.setProperty('--up', Math.max(0, q.vals[i])); c.style.setProperty('--dn', Math.max(0, -q.vals[i]));
-    c.classList.toggle('off', i >= q.len);
+    const v = q.vals[at + i];
+    c.style.setProperty('--up', Math.max(0, v)); c.style.setProperty('--dn', Math.max(0, -v));
+    c.classList.toggle('off', at + i >= q.len);
   });
+  [...$('m-seq-pages').children].forEach((b, p) => { b.setAttribute('aria-selected', p === mSeqPage); b.classList.toggle('past', p * 16 >= q.len); });
+  $('m-seq-type').textContent = SEQ_RAND[mSeqType][0];
   $('m-seq-depth').style.setProperty('--w', q.depth / 100); $('m-seq-depth-out').textContent = `±${q.depth}%`;
-  $('m-seq-len').style.setProperty('--w', q.len / 16); $('m-seq-len-out').textContent = `${q.len} steps`;
+  $('m-seq-len').style.setProperty('--w', (q.len - 2) / (SEQ_MAX - 2)); $('m-seq-len-out').textContent = `${q.len} steps`;
   $('m-seq-slew').style.setProperty('--w', q.slew / 100); $('m-seq-slew-out').textContent = q.slew ? `${q.slew}%` : 'off';
   $('m-seq-speed').style.setProperty('--w', (SEQ_STEPS.indexOf(q.step) + 1) / SEQ_STEPS.length); $('m-seq-speed-out').textContent = stepName(q.step);
   $('m-seq-on').setAttribute('aria-pressed', q.on); $('m-seq-on').textContent = q.on ? 'on' : 'off';
@@ -8664,7 +8679,7 @@ useSong = function (g, keepTempo) {
     f.base = null; f.off = 0; f.glide = null;
     // (sequences saved before they were offsets held values: they become offsets from the middle of the range)
     const hi = f.hiOf(), vals = q ? (q.rel ? q.vals.slice() : q.vals.map((v) => mSeqOff(((v - f.min) / (hi - f.min || 1)) * 2 - 1))) : null;
-    f.seq = q ? { on: !!q.on, len: q.len, slew: q.slew || 0, step: SEQ_STEPS.includes(q.step) ? q.step : 1, depth: typeof q.depth === 'number' ? q.depth : 50, vals } : null;
+    f.seq = q ? { on: !!q.on, len: Math.max(2, Math.min(SEQ_MAX, q.len | 0)), slew: q.slew || 0, step: SEQ_STEPS.includes(q.step) ? q.step : 1, depth: typeof q.depth === 'number' ? q.depth : 50, vals: seqVals(vals) } : null;
   }
   if (mSeqF) { if (mSeqF.seq) mSeqDraw(); else $('m-seq-close').click(); }
   mSeqMarks();
@@ -8679,7 +8694,7 @@ useSong = function (g, keepTempo) {
     const row = Math.max(0, Math.min(rows - 1, Math.floor((e.clientY - r.top) / r.height * rows)));
     const c = mSeqSteps[row * cols + col], cr = c.getBoundingClientRect();
     if (c.classList.contains('off')) return;
-    const o = mSeqF.seq.vals[row * cols + col] = mSeqOff(1 - 2 * (e.clientY - cr.top) / cr.height);
+    const o = mSeqF.seq.vals[mSeqPage * 16 + row * cols + col] = mSeqOff(1 - 2 * (e.clientY - cr.top) / cr.height);
     $('m-seq-val').textContent = `${o > 0 ? '+' : o < 0 ? '−' : ''}${Math.round(Math.abs(o) * mSeqF.seq.depth)}%`;
     mSeqDraw();
   };
@@ -8688,7 +8703,7 @@ useSong = function (g, keepTempo) {
   const stop = () => { painting = false; };
   box.addEventListener('pointerup', stop); box.addEventListener('pointercancel', stop);
 }
-// the length (2 at the left to 16 at the right) and the slew (off to a whole step): horizontal bars
+// the length (2 at the left to 64 at the right) and the slew (off to a whole step): horizontal bars
 function mSeqBar(bar, setFrac) {
   const at = (e) => { const r = bar.getBoundingClientRect(); setFrac(Math.max(0, Math.min(1, (e.clientX - r.left) / r.width))); mSeqDraw(); };
   let held = false;
@@ -8696,11 +8711,33 @@ function mSeqBar(bar, setFrac) {
   bar.addEventListener('pointermove', (e) => { if (held) at(e); });
   bar.addEventListener('pointerup', () => { held = false; }); bar.addEventListener('pointercancel', () => { held = false; });
 }
-mSeqBar($('m-seq-len'), (x) => { mSeqF.seq.len = 2 + Math.round(x * 14); });
+mSeqBar($('m-seq-len'), (x) => { mSeqF.seq.len = 2 + Math.round(x * (SEQ_MAX - 2)); });
 mSeqBar($('m-seq-slew'), (x) => { mSeqF.seq.slew = Math.round(x * 20) * 5; });
 mSeqBar($('m-seq-speed'), (x) => { mSeqF.seq.step = SEQ_STEPS[Math.min(SEQ_STEPS.length - 1, Math.floor(x * SEQ_STEPS.length))]; });
 mSeqBar($('m-seq-depth'), (x) => { mSeqF.seq.depth = Math.round(x * 20) * 5; if (mSeqF.base !== null) mSeqApply(mSeqF); });
-$('m-seq-rand').addEventListener('click', () => { const q = mSeqF.seq; for (let i = 0; i < 16; i++) q.vals[i] = mSeqOff(Math.random() * 2 - 1); q.on = true; mSeqDraw(); });
+// the pages: 1-16, 17-32, 33-48, 49-64
+for (let p = 0; p < SEQ_MAX / 16; p++) {
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'm-btn'; b.setAttribute('role', 'tab'); b.textContent = `${p * 16 + 1}-${p * 16 + 16}`;
+  b.addEventListener('click', () => { mSeqPage = p; mSeqDraw(); }); $('m-seq-pages').append(b);
+}
+// the kinds of randomise, each making the steps over the length (and on past it, so a longer length carries on):
+// random: any offset each step; drunk: a walk, a small step up or down from the last; wobbly: two slow waves together,
+// a smooth wander that comes back round at the length; ramp: a rise or fall over the length; s&h: a new random
+// offset held for 2 to 4 steps; sparse: mostly none, now and then a spike
+const rr = () => Math.random() * 2 - 1;
+const SEQ_RAND = [
+  ['random', (n) => Array.from({ length: SEQ_MAX }, rr)],
+  ['drunk', () => { let v = rr() * 0.5; return Array.from({ length: SEQ_MAX }, () => { v += rr() * 0.3; if (v > 1 || v < -1) v = Math.sign(v) * 2 - v; return v; }); }],
+  ['wobbly', (n) => { const a = 1 + Math.floor(Math.random() * 2), b = 2 + Math.floor(Math.random() * 3), pa = Math.random() * 6.3, pb = Math.random() * 6.3, mix = 0.3 + Math.random() * 0.4;
+    return Array.from({ length: SEQ_MAX }, (_, i) => (1 - mix) * Math.sin(2 * Math.PI * a * i / n + pa) + mix * Math.sin(2 * Math.PI * b * i / n + pb)); }],
+  ['ramp', (n) => { const up = Math.random() < 0.5; return Array.from({ length: SEQ_MAX }, (_, i) => { const x = (i % n) / Math.max(1, n - 1) * 2 - 1; return up ? x : -x; }); }],
+  ['s&h', () => { const hold = 2 + Math.floor(Math.random() * 3); let v = 0; return Array.from({ length: SEQ_MAX }, (_, i) => { if (i % hold === 0) v = rr(); return v; }); }],
+  ['sparse', () => Array.from({ length: SEQ_MAX }, () => (Math.random() < 0.22 ? rr() : 0))],
+];
+const SEQ_TYPE_KEY = 'elixir-mobile-seqrand';
+let mSeqType = (() => { try { const i = SEQ_RAND.findIndex(([n]) => n === localStorage.getItem(SEQ_TYPE_KEY)); return i < 0 ? 0 : i; } catch (e) { return 0; } })();
+$('m-seq-type').addEventListener('click', () => { mSeqType = (mSeqType + 1) % SEQ_RAND.length; try { localStorage.setItem(SEQ_TYPE_KEY, SEQ_RAND[mSeqType][0]); } catch (e) {} mSeqDraw(); });
+$('m-seq-rand').addEventListener('click', () => { const q = mSeqF.seq; q.vals = SEQ_RAND[mSeqType][1](q.len).map(mSeqOff); q.on = true; mSeqDraw(); });
 $('m-seq-on').addEventListener('click', () => { mSeqF.seq.on = !mSeqF.seq.on; if (!mSeqF.seq.on) mSeqRelease(mSeqF); mSeqDraw(); });
 mCloser('m-seq', () => { mSeqF = null; });
 // the glides, a frame at a time while any is moving
@@ -8726,7 +8763,10 @@ $('m').addEventListener('contextmenu', (e) => e.preventDefault());
 function mSeqStep(f, i, ms) {
   const q = f.seq, k = Math.floor(i) % q.len, to = q.vals[k] || 0;
   if (q.slew) { f.glide = { from: f.off, to, t0: performance.now(), ms: q.slew / 100 * ms }; mGlideRun(); } else { f.glide = null; f.off = to; mSeqApply(f); }
-  if (f === mSeqF) mSeqSteps.forEach((c, j) => c.classList.toggle('now', j === k));
+  if (f === mSeqF) {
+    mSeqSteps.forEach((c, j) => c.classList.toggle('now', mSeqPage * 16 + j === k));
+    [...$('m-seq-pages').children].forEach((b, p) => b.classList.toggle('now', p === Math.floor(k / 16)));
+  }
 }
 // stopping puts every fader back to its setting
 new MutationObserver(() => {
@@ -9301,8 +9341,9 @@ const HELP = [
 <li>The star makes it a favourite (favourites are listed first).</li>
 <li><b>save new</b> keeps what you hear; <b>save over</b> replaces the one loaded.</li>
 <li><b>export presets</b> saves your presets to a file (it never deletes anything); <b>import</b> reads one back.</li></ul>`],
-  ['seq', 'step sequencers', `<p>Hold any fader for half a second and it gets a step sequencer: 2 to 16 steps, each moving the fader up or down from where you leave it, so you can still play it.</p>
-<ul><li>Paint the steps with a finger, or press <b>randomise</b>.</li><li><b>speed</b> is each step's length, a 16th up to 8 bars. <b>slew</b> glides between steps. <b>depth</b> is how far they reach.</li>
+  ['seq', 'step sequencers', `<p>Hold any fader for half a second and it gets a step sequencer: 2 to 64 steps, each moving the fader up or down from where you leave it, so you can still play it.</p>
+<ul><li>Paint the steps with a finger: sixteen at a time, the buttons above them pick which sixteen (the one playing is underlined).</li>
+<li><b>randomise</b> makes new steps; the button beside it picks the kind (tap to change): random, drunk (a wandering walk), wobbly (smooth waves that loop), ramp, s&amp;h (held steps) or sparse (now and then a spike).</li><li><b>speed</b> is each step's length, a 16th up to 8 bars. <b>slew</b> glides between steps. <b>depth</b> is how far they reach.</li>
 <li><b>on</b> turns it on and off. A fader with a sequencer running has its name inverted. Presets keep them.</li>
 <li>The steps follow the groove and its depth, landing with the swung hits; switch that off in the person button's <b>seq</b> tab.</li></ul>`],
   ['rec', 'recording', `<ul><li><b>rec</b> starts recording (and playing); press it again to stop, and the WAV downloads.</li>
